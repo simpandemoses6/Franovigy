@@ -1,0 +1,61 @@
+/* ============================================================
+   Contact page: form motion + email pop-ups
+   ============================================================ */
+
+/* red underline that draws itself when a field is focused */
+.form label { position: relative; }
+.form label::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform 0.35s ease; pointer-events: none; }
+.form label:focus-within::after { transform: scaleX(1); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+.btn-send i { display: inline-block; font-style: normal; transition: transform 0.3s; }
+.btn-send:hover i { transform: translateX(6px); }
+
+/* pop-up */
+.cm-overlay { position: fixed; inset: 0; z-index: 250; display: grid; place-items: center; padding: 1rem; background: rgba(10, 10, 10, 0.55); backdrop-filter: blur(5px); }
+.cm { position: relative; width: min(540px, 100%); max-height: 92vh; overflow-y: auto; padding: 2rem 1.75rem 1.75rem; background: #fff; border-top: 4px solid var(--red); box-shadow: 0 30px 80px rgba(10, 10, 10, 0.35); }
+.cm h3 { font-family: var(--heading); font-size: 1.6rem; line-height: 1.1; margin-bottom: 0.6rem; }
+.cm p { color: var(--ink-2); }
+.cm-center { display: grid; justify-items: center; gap: 0.4rem; text-align: center; }
+.cm-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.75rem; }
+.cm-center .cm-actions { justify-content: center; }
+.cm-small { margin-top: 0.6rem; font-size: 0.82rem; color: var(--muted); }
+
+.cm-details { margin: 1.25rem 0; display: grid; gap: 0.6rem; }
+.cm-details > div { display: grid; grid-template-columns: 84px 1fr; gap: 0.75rem; padding: 0.7rem 0.9rem; background: var(--soft); border-left: 3px solid var(--red); }
+.cm-details dt { align-self: center; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.cm-details dd { margin: 0; font-weight: 500; word-break: break-word; }
+.cm-warn { margin-bottom: 1.25rem; padding: 0.8rem 1rem; border: 1px solid var(--red); background: rgba(215, 25, 32, 0.06); font-size: 0.92rem; }
+.cm-warn button { margin-left: 0.5rem; background: none; border: 0; color: var(--red); font-weight: 700; text-decoration: underline; cursor: pointer; }
+.cm-note { margin: 0.8rem 0 0.4rem; padding: 0.9rem 1rem; background: var(--soft); border-left: 3px solid var(--ink); font-size: 0.92rem; text-align: left; color: var(--ink-2); }
+
+/* sending: paper plane */
+.plane-stage { position: relative; width: 180px; height: 90px; margin: 0 auto 0.8rem; overflow: hidden; }
+.plane-trail { position: absolute; left: 10px; right: 10px; top: 50%; height: 2px; opacity: 0.25; background: repeating-linear-gradient(90deg, var(--ink) 0 8px, transparent 8px 16px); animation: cm-trail 0.8s linear infinite; }
+.plane { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; margin: -23px 0 0 -23px; color: var(--red); animation: cm-fly 1.8s ease-in-out infinite; }
+.cm-dots i { font-style: normal; opacity: 0.2; animation: cm-dot 1.2s infinite; }
+.cm-dots i:nth-child(2) { animation-delay: 0.2s; }
+.cm-dots i:nth-child(3) { animation-delay: 0.4s; }
+.send-bar { position: relative; width: 100%; height: 4px; margin-top: 1.1rem; overflow: hidden; background: var(--line); }
+.send-bar::after { content: ""; position: absolute; top: 0; bottom: 0; width: 35%; background: var(--red); animation: cm-bar 1.1s ease-in-out infinite; }
+
+/* result icons + confetti */
+.cm-icon { width: 76px; height: 76px; }
+.cm-shake { animation: cm-shake 0.5s ease; }
+.confetti { position: absolute; left: 50%; top: 70px; width: 0; height: 0; pointer-events: none; }
+.confetti span { position: absolute; width: 8px; height: 8px; }
+
+@keyframes cm-fly {
+    0% { transform: translate(-80px, 18px) rotate(-6deg); opacity: 0; }
+    20%, 80% { opacity: 1; }
+    100% { transform: translate(80px, -18px) rotate(-6deg); opacity: 0; }
+}
+@keyframes cm-trail { to { background-position: 16px 0; } }
+@keyframes cm-dot { 0%, 20% { opacity: 0.2; } 50% { opacity: 1; } 100% { opacity: 0.2; } }
+@keyframes cm-bar { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
+@keyframes cm-shake { 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); } }
+
+@media (max-width: 520px) {
+    .cm { padding: 1.5rem 1.25rem; }
+    .cm-details > div { grid-template-columns: 1fr; gap: 0.2rem; }
+    .cm-actions .btn { flex: 1 1 100%; text-align: center; }
+}
